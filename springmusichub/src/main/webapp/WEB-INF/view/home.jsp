@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page import="com.model.Product_Info" language="java" contentType="text/html; charset=ISO-8859-1"
+
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.util.*" %>
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,15 +19,20 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
 <script src="<c:url value="/resources/app.js"/>"></script>
 <title>Insert title here</title>
+
+
+
 </head>
 <body>
 
 <%  String im1=request.getParameter("im1");
 
+
 	
 %>
+<!-- Check the category -->
 <% if(im1.equals("img1")){ %>
-<center><div class="container" ng-app="sortApp" ng-controller="mainController">
+<center><div class="container" ng-init="getProduct();" ng-app="sortApp" ng-controller="mainController">
 
 	<center><div class="table table-responsive">
 			<table class="table">
@@ -56,16 +63,16 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
           <tr>  
             <th>NAME</th>  
             <th>PRODUCT ID</th>  
-            <th>PRODUCT COST</th>  
-            <th>DESCRIPTION</th>  
+            <th>ADD TO CART</th>  
+            
           </tr>  
         </thead>  
         <tbody>  
-         	<tr ng-repeat="c in record | filter:na">
+         	<tr ng-repeat="c in categ | filter:na">
          		<td>{{c.name}}</td>
          		<td>{{c.product_id}}</td>
-         		<td>{{c.product_cost}}</td>
-         		<td>{{c.description}}</td>
+         		
+         		<td><a href="addtocart?pid={{c.product_id}}"><italic>i</italic></a></td>
          	</tr>
 		</tbody>
 		</table>
@@ -82,7 +89,7 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
 else if(im1.equals("img2"))
 {
 %>
-<center><div class="container" ng-app="sortApp" ng-controller="mainController">
+<center><div class="container" ng-init="getProduct();" ng-app="sortApp" ng-controller="mainController">
 
 	<center><div class="table table-responsive">
 			<table class="table">
@@ -106,27 +113,24 @@ else if(im1.equals("img2"))
 </form>
 
 
-
 	<div class="table-responsive">
 		<table class="display table">
 		<thead>  
           <tr>  
             <th>NAME</th>  
             <th>PRODUCT ID</th>  
-            <th>PRODUCT COST</th>  
-            <th>DESCRIPTION</th>  
+            <th>ADD TO CART</th>   
           </tr>  
         </thead>  
         <tbody>  
-         	<tr ng-repeat="c in instrument | filter:na">
+         	<tr ng-repeat="c in categ | filter:na">
          		<td>{{c.name}}</td>
          		<td>{{c.product_id}}</td>
-         		<td>{{c.product_cost}}</td>
-         		<td>{{c.description}}</td>
+         		
+         		<td><a href="addtocart?pid={{c.product_id}}"><italic>i</italic></a></td>
          	</tr>
 		</tbody>
 		</table>
-	
 	</div>
 	<br><br>
 	<h2><a href="view.jsp">View Cart</a></h2><br>
@@ -140,7 +144,7 @@ else if(im1.equals("img3"))
 {
 
 %>
-<center><div class="container" ng-app="sortApp" ng-controller="mainController">
+<center><div class="container" ng-init="getProduct();" ng-app="sortApp" ng-controller="mainController">
 
 	
 	<center><div class="table table-responsive">
@@ -173,16 +177,15 @@ else if(im1.equals("img3"))
           <tr>  
             <th>NAME</th>  
             <th>PRODUCT ID</th>  
-            <th>PRODUCT COST</th>  
-            <th>DESCRIPTION</th>  
+            <th>ADD TO CART</th>  
           </tr>  
         </thead>  
         <tbody>  
-         	<tr ng-repeat="c in accessories | filter:na">
+         	<tr ng-repeat="c in categ | filter:na">
          		<td>{{c.name}}</td>
          		<td>{{c.product_id}}</td>
-         		<td>{{c.product_cost}}</td>
-         		<td>{{c.description}}</td>
+         		
+         		<td><a href="addtocart?pid={{c.product_id}}"><italic>i</italic></a></td>
          	</tr>
 		</tbody>
 		</table>
@@ -202,7 +205,7 @@ else
 {
 %>
 
-<center><div class="container" ng-app="sortApp" ng-controller="mainController">
+<center><div class="container" ng-init="getProduct();" ng-app="sortApp" ng-controller="mainController">
 
 	<form>
 	<div class="form-group">
@@ -224,16 +227,15 @@ else
           <tr>  
             <th>NAME</th>  
             <th>PRODUCT ID</th>  
-            <th>PRODUCT COST</th>  
-            <th>DESCRIPTION</th>  
+             <th>ADD TO CART</th>  
           </tr>  
         </thead>  
         <tbody>  
-         	<tr ng-repeat="c in category | filter:na">
+         	<tr ng-repeat="c in categ | filter:na">
          		<td>{{c.name}}</td>
          		<td>{{c.product_id}}</td>
-         		<td>{{c.product_cost}}</td>
-         		<td>{{c.description}}</td>
+         		
+         		<td><a href="addtocart?{{c.product_id}}"><italic>i</italic></a></td>
          	</tr>
 		</tbody>
 		</table>
