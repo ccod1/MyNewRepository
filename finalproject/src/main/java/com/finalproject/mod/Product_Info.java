@@ -1,12 +1,14 @@
 package com.finalproject.mod;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/*@Entity
-public class Product_Info {
+@Entity
+public class Product_Info implements Serializable {
 
 	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
@@ -47,4 +49,3 @@ public class Product_Info {
 	
 	
 }
-*/

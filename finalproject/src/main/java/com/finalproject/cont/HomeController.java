@@ -4,22 +4,30 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-//import com.finalproject.dao.Data;
-//import com.finalproject.model.Product_Info;
+import com.finalproject.daopack.DaoService;
+import com.finalproject.mod.Product_Info;
 import com.google.gson.Gson;
 
 
 
 
 
+
 @Controller
+
 public class HomeController
 {
+	@Autowired
+	DaoService s;
+	
 	
 	@RequestMapping("/")
 	public String gotoindex()
@@ -94,25 +102,20 @@ public class HomeController
 	{
 		return "home";
 	}
-//	Data d;
-	
-	
-	
+
+
 	@RequestMapping("/home1")
 	public @ResponseBody String fetchInfo()
 	{
 		
-	/*	XmlWebApplicationContext xwac=new XmlWebApplicationContext();
-		Data d1=(Data)xwac.getBean("data");
-		d.insertData();
 		
-		*/
-	/*	String json="";
-		try
-		{
+	
 		
-		Data d=new Data();
-		List <Product_Info> pr=(List <Product_Info>)d.getInfo();
+		//s.insertData();
+		
+		
+		String json="";
+		List <Product_Info> pr=(List <Product_Info>)s.getData();
 		
 		for(Product_Info p:pr)
 		System.out.println(p);
@@ -120,6 +123,8 @@ public class HomeController
 		Gson gs=new Gson();
 		json=gs.toJson(pr);
 		System.out.println(json);
+		
+		
 		//JsonParser jsp=new JsonParser();
 		
 		//ModelAndView mv=new ModelAndView("home");
@@ -128,16 +133,8 @@ public class HomeController
 		
 		
 		return json;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 		
-		return json;
-		*/
-		
-		return "abc";
+	
 	}
 
 }
