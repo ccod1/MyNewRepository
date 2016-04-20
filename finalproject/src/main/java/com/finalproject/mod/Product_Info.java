@@ -1,11 +1,17 @@
-package com.model;
+package com.finalproject.mod;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Entity
+/*@Entity
 public class Product_Info {
-	
-	private String name,product_id,product_price,description;
+
+	//@GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
+	private String name;
+	private String product_id,product_price,description;
 
 	public String getName() {
 		return name;
@@ -13,7 +19,7 @@ public class Product_Info {
 
 	public void setName(String name) {
 		this.name = name;
-	} 
+	}
 
 	public String getProduct_id() {
 		return product_id;
@@ -40,6 +46,5 @@ public class Product_Info {
 	}
 	
 	
-	
-
 }
+*/

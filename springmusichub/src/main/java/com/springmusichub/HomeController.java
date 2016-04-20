@@ -22,7 +22,7 @@ import com.model.Product_Info;
 
 
 @Controller
-public class HomeController {
+public class HomeController { 
 
  
 	@RequestMapping("/")
@@ -73,12 +73,13 @@ public class HomeController {
 		return mv;
 	}
 	
-	@Autowired
-	private Data d;
+	//@Autowired
+	//private Data d;
 	
 	@RequestMapping("/addtocart")
 	public String gotoaddtocart()
 	{
+		Data d= new Data();
 		List <Product_Info> pr=d.getInfo();
 		
 		ModelAndView mv=new ModelAndView("addtocart");
@@ -108,7 +109,9 @@ public class HomeController {
 	@RequestMapping("/home1")
 	public String fetchInfo()
 	{
+		Data d=new Data();
 		List <Product_Info> pr=(List <Product_Info>)d.getInfo();
+		
 		for(Product_Info p:pr)
 		System.out.println(p);
 		
