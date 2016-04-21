@@ -30,18 +30,12 @@ private SessionFactory sessionFactory;
 
 	
 
-	public void insertData()
+	public void insertUserData(User_Info ui)
 	{
 		Session ses= sessionFactory.openSession();
-		
-		Product_Info i1=new Product_Info();
-		i1.setName("A");
-		i1.setProduct_id("pro111");
-		i1.setProduct_price("1000");
-		i1.setDescription("Songs");
-		ses.save(i1);
+		ses.save(ui);
 		ses.flush();
-		ses.close();
+		
 	
 	}
 
@@ -53,6 +47,21 @@ private SessionFactory sessionFactory;
 		List<Product_Info> pr= c.list();
 		
 		return pr;
+	}
+	
+	public void updateUserData(User_Info ui)
+	{
+		Session ses=sessionFactory.getCurrentSession();
+		ses.update(ui);
+		ses.flush();
+		
+	}
+	
+	public void deleteUserData(User_Info ui)
+	{
+		Session ses=sessionFactory.getCurrentSession();
+		ses.delete(ui);
+		ses.flush();
 	}
 		
 

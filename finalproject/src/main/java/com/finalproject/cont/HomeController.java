@@ -8,18 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finalproject.daopack.DaoService;
 import com.finalproject.mod.Product_Info;
+import com.finalproject.mod.User_Info;
 import com.google.gson.Gson;
-
-
-
-
-
 
 @Controller
 
@@ -55,6 +53,37 @@ public class HomeController
 		ModelAndView mv=new ModelAndView("signup");
 		return mv;
 	}
+	
+	@ModelAttribute("user")
+	public User_Info create()
+	{
+		System.out.println("inside modelattribute");
+		return new User_Info();
+	}
+	
+	@RequestMapping(value="/signsuccess",params="add",method=RequestMethod.POST)
+	public String doRegister(@ModelAttribute("user") User_Info user)
+	{
+		s.insertUserData(user);
+		System.out.println(user.getName());
+		return "signsuccess";
+	}
+	
+	@RequestMapping(value="/signsuccess",params="edit",method=RequestMethod.POST)
+	public String doEdit(@ModelAttribute("user") User_Info user)
+	{
+		s.updateUserData(user);
+		System.out.println(user.getNumber());
+		return "signsuccess";
+	}
+	@RequestMapping(value="/signsuccess",params="delete",method=RequestMethod.POST)
+	public String doDelete(@ModelAttribute("user") User_Info user)
+	{
+		s.deleteUserData(user);
+		System.out.println(user.getNumber());
+		return "signsuccess";
+	}
+	
 	
 	@RequestMapping("/aboutus")
 	public ModelAndView openaboutus()
@@ -106,14 +135,7 @@ public class HomeController
 
 	@RequestMapping("/home1")
 	public @ResponseBody String fetchInfo()
-	{
-		
-		
-	
-		
-		//s.insertData();
-		
-		
+	{		
 		String json="";
 		List <Product_Info> pr=(List <Product_Info>)s.getData();
 		
@@ -122,16 +144,7 @@ public class HomeController
 		
 		Gson gs=new Gson();
 		json=gs.toJson(pr);
-		System.out.println(json);
-		
-		
-		//JsonParser jsp=new JsonParser();
-		
-		//ModelAndView mv=new ModelAndView("home");
-		
-		//mv.addObject("listData",json);
-		
-		
+		System.out.println(json);		
 		return json;
 		
 	
