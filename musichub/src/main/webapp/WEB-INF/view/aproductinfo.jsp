@@ -26,7 +26,7 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
 <body>
 <%@include file="header.jsp" %>
 
-<center><div class="container" ng-init="getProduct();" ng-app="sortApp" ng-controller="mainController">
+<center><div class="container" ng-init="getProductinf();" ng-app="sortApp" ng-controller="mainController">
 
 	<center><div class="table table-responsive">
 			<table class="table">
@@ -57,7 +57,9 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
           <tr>  
             <th>NAME</th>  
             <th>PRODUCT ID</th>  
-            <th>ADD TO CART</th>  
+            <th>PRODUCT PRICE</th>
+            <th>PRODUCT MANUFACTURE</th>  
+            
             
           </tr>  
         </thead>  
@@ -65,8 +67,11 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
          	<tr ng-repeat="c in categ | filter:na">
          		<td>{{c.name}}</td>
          		<td>{{c.code}}</td>
+         		<td>{{C.price}}</td>
+         		<td>{{c.manufact}}</td>
          		
-         		<td><a href="productinfo?pid={{c.code}}"><italic>i</italic></a></td>
+         		<td><a type="button" href="proedit?code=${c.code}" class="btn btn-info">UPDATE</a></td>
+         		<td><a type="button" href="prodelete" class="btn btn-danger">DLETE</a></td>
          	</tr>
 		</tbody>
 		</table>

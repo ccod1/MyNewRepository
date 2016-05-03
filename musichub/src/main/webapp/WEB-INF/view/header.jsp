@@ -11,15 +11,18 @@
 </head>
 <body>
 		<div class="container">
-			<nav class="navbar navbar-inverse">
+			<nav class="navbar navbar-inverse" >
  				<div class="container-fluid">
     				<ul class="nav navbar-nav navbar-left" role="tablist">
       					<li><a href="aboutus">ABOUT US</a></li> 
+      					<li><a href="index">HOME</a>
       					<li><a href="home?im1=allcat">ALL CATEGORIES</a></li>
+      					<li><a href="shop?shop=shop">TOFLOW</a></li>
       				</ul>
       				<ul class="nav navbar-nav navbar-right"> 
      					 <li><a href="signup">SIGN UP</a></li>
      					 <li><a href="login">SIGN IN</a></li>
+     					 <li><a href="admin">ADMIN</a></li>
    					</ul>
  		 		</div>
 			</nav>

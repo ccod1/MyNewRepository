@@ -7,29 +7,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>***SIGN UP***</title>
 
-<style>
-	.container
-	{
-		margin-top:10%;
-		width:30%;
-		height:40%;
-		background-color: #d9bc5c;
-		padding: 5%;
-		border-radius: 15%;
-		border-width: 2%;
-	}
-	
-</style>
 </head>
 <body>
-<br><br><br>	
+<%@ include file="header.jsp" %>	
 <div class="container">
 		
 	<center>	<form:form commandName="user" class="form-horizontal" action="signsuccess" method="post">
 			<div class="form-group">
-				<label for="name" class="col-sm-2 control-label" > Name:</label>
+				<label for="username" class="col-sm-2 control-label" > Name:</label>
 					<div class="col-sm-5">
-						<form:input path="name" placeholder="Name......" cssClass="form-control"/>
+						<form:input path="username" placeholder="Name......" cssClass="form-control"/>
 					</div>
 				</div>
 			<div class="form-group">
@@ -50,21 +37,30 @@
 						<form:input path="email" placeholder="Email...." cssClass="form-control"/>
 					</div>
 			</div>
+			<div class="form-group">
+				
+					<div class="col-sm-5">
+						<form:hidden path="secretValue" />
+					</div>
+			</div>
+			<div class="form-group">
+				
+					<div class="col-sm-5">
+						<form:hidden path="roleid" />
+					</div>
+			</div>
+			
 		   <div class="form-group">
 					<div class="col-sm-2">
 						<input type="submit" name="add" value="SIGNUP" class="btn btn-success pull-right"/>
 					</div>
-					<div class="col-sm-2">
-						<input type="submit" name="edit"  value="UPDATE" class="btn btn-primary pull-right"/>
-					</div>
-					<div class="col-sm-2">
-						<input type="submit" name="delete"  value="DELETE" class="btn btn-danger pull-right"/>
-					</div>
+					
 			</div> 
 			
 			
 		</form:form> 
 	</center>
 	</div>
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

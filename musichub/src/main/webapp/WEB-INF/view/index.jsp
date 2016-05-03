@@ -43,10 +43,6 @@
       	<div class="item">
         	<img src="<c:url value="/resources/image/img3.jpg"/>" alt="" width="460" height="300"/>
       	</div>
-
-      	<div class="item">
-        	<img src="<c:url value="/resources/image/img4.jpg"/>" alt="" width="460" height="300"/>
-      	</div>
     </div>
 
     <!-- Left and right controls -->
@@ -64,13 +60,13 @@
   			<table class="table table-bordered">
   			<tr>
   				<td>
-  					<a href="home?im1=img1"><img class="img-responsive" src="<c:url value="/resources/image/img5.jpg"/>" style="width:200px;height:200px"   ></a>
+  					<a href="home?im1=flute"><img class="img-responsive" src="<c:url value="/resources/image/shakuhachi.jpg"/>" style="height:150px"    ></a>
   				</td>
    				<td>
-  					<a href="home?im1=img2"><img class="img-responsive" src="<c:url value="/resources/image/img6.jpg"/>" style="width:200px;height:200px" ></a>
+  					<a href="home?im1=guitar"><img class="img-responsive" src="<c:url value="/resources/image/bass_guitar.jpg"/>" style="height:150px" ></a>
   				</td>
    				<td>
-  					<a href="home?im1=img3"><img class="img-responsive" src="<c:url value="/resources/image/img7.jpg"/>" style="width:200px;height:200px" ></a>
+  					<a href="home?im1=trumpet"><img class="img-responsive" src="<c:url value="/resources/image/flumpet.jpg"/>" style="height:150px" ></a>
   				</td>
   			</tr>
   			</table>
