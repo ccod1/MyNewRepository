@@ -6,10 +6,10 @@
     xmlns:security="http://www.springframework.org/schema/security" 
     xmlns:webflow="http://www.springframework.org/schema/webflow-config"
     xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd 
         http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
   
   	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
@@ -18,8 +18,11 @@
         <beans:property name="username" value="sa" />
         <beans:property name="password" value="" />
     </beans:bean>
- <context:component-scan base-package="com.musichub"/>
+ <tx:annotation-driven transaction-manager="transactionManager"/>
+ 
  <beans:bean id="prodvalidator" class="com.musichub.validator.ProductValidation"/>
+ 
+ 
  
     <!-- Hibernate  SessionFactory -->
     <beans:bean id="sessionFactory"  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -32,30 +35,27 @@
             </beans:props>
         </beans:property>        
        <beans:property name="packagesToScan">
-           <beans:list><beans:value>com.musichub</beans:value></beans:list>       
+           <beans:list><beans:value>com.musichub.model</beans:value></beans:list>       
        </beans:property> 
     </beans:bean>
    
 	<!-- Spring security -->
 	
-	<security:http auto-config="true">
-			<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
-       		<security:form-login
-          		 login-page="/login"
-          		 default-target-url="/admin/"
-          		 authentication-failure-url="/login?error"
-          		 username-parameter="username"
-          		 password-parameter="password" />
-            <security:logout logout-success-url="/login?logout" />
+	
+	<security:http auto-config="true" >
+			<security:intercept-url pattern="/login" access="hasRole('ROLE_ADMIN')" />
+			<security:intercept-url pattern="/login" access="hasRole('ROLE_USER')" />
+       		<security:form-login login-page="/signin" default-target-url="/logincheck" login-processing-url="/process_login" authentication-failure-url="/logincheck?error=true"/>
+       		<security:csrf disabled="true"/>
     </security:http>
     
     
 	<security:authentication-manager>
        <security:authentication-provider>
            <security:jdbc-user-service data-source-ref="dataSource"
-            	users-by-username-query="SELECT username, password, enabled FROM users WHERE username = ?" 
-                authorities-by-username-query="SELECT u1.username, u2.authority from users u1, authorities u2 WHERE u1.username=u2.username"/>                                                  
-       </security:authentication-provider>
+            	authorities-by-username-query="select u1.username, u2.role from user_authentication u1, user_authorization u2 where u1.user_id = u2.user_id and u1.username =?" 
+                users-by-username-query="select username,password,enabled from user_authentication where username=?"/>                                                  
+       </security:authentication-provider> 
    </security:authentication-manager>
    
    

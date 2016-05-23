@@ -10,12 +10,13 @@
 
 </head>
 <body>
+<br><br><br><br><br>
 		<div class="container">
 			<nav class="navbar navbar-inverse">
  				<div class="container-fluid">
     				<ul class="nav navbar-nav navbar-left" role="tablist">
       					<li class="glyphicon glyphicon-copyright-mark"></li> 
-      					<li><a type="button" href="admin" class="btn btn-primary">ADMIN</a></li>
+      					
    					</ul>
  		 		</div>
 			</nav>

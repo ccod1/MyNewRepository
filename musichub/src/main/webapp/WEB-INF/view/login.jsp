@@ -15,7 +15,7 @@
 
 
 <div class="container-fluid">
-		<center> <form name="loginForm" class="form-horizontal" action="<c:url value="/j_spring_security_check" />" method="post">
+		<center> <form name="loginForm" class="form-horizontal" action="<c:url value="/logincheck" />" method="post">
                <c:if test="${not empty error}">
                    <div class="error" style="color: #ff0000 ;">${error}</div>
                </c:if>
@@ -23,6 +23,12 @@
 				<label for="username" class="col-sm-2 control-label" > Name:</label>
 					<div class="col-sm-5">
 						<input type="text" id="username" name="username" placeholder="Name......" cssClass="form-control"/>
+					</div>
+               </div>
+               <div class="form-group">
+				<label for="username" class="col-sm-2 control-label" > Name:</label>
+					<div class="col-sm-5">
+						 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</div>
                </div>
                 <div class="form-group">

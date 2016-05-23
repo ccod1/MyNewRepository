@@ -7,11 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@include file="header.jsp" %>
 	<div class="container">
 			<div>
 				<a href="aproductinfo" type="button" class="btn btn primary">View Products</a>
+				<a href="productform" type="button" class="btn btn primary">Add Products</a>
 			</div>
 		
 	</div>
+	<%@include file="footer.jsp" %>
 </body>
 </html>

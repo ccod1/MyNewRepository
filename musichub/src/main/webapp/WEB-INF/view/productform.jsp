@@ -17,7 +17,7 @@
 		
 	<center>	<form:form commandName="product" class="form-horizontal" action="addprosuccess" enctype="multipart/form-data" method="post">
 			<div class="form-group">
-				
+				 
 					<div class="col-sm-5">
 						<form:errors path="*"  cssStyle="color:red;"/>
 					</div>
@@ -47,7 +47,7 @@
 					</div>
 			</div>
 			<div class="form-group">
-				<label for="type" class="col-sm-2 control-label"> Price :</label>
+				<label for="type" class="col-sm-2 control-label"> Type :</label>
 					<div class="col-sm-5">
 						<form:input path="type" placeholder="type...." cssClass="form-control"/>
 					</div>
@@ -72,6 +72,7 @@
 				<div class="col-sm-2">
 						<input type="submit" name="delete"  value="DELETE" class="btn btn-danger pull-right"/>
 				</div>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</div>
 			
 		</form:form> 

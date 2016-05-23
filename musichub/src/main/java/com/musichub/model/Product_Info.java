@@ -1,5 +1,7 @@
 package com.musichub.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Entity
-public class Product_Info {
+public class Product_Info implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int code;
@@ -29,7 +31,7 @@ public class Product_Info {
 	
 	@Transient
 	private String img;
-	
+	@Min(value=500,message="Enter the valid price")
 	private int price;
 	@NotEmpty(message="Type feild is mandatory")
 	private String type;

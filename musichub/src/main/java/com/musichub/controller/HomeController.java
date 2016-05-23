@@ -5,14 +5,19 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +45,13 @@ public class HomeController {
 		return "index";
 	}
 	
+	/*@RequestMapping("/addtocart")
+	public String goToCart()
+	{
+		System.out.println("Inside add to cart");
+		return "addtocart";
+	}*/
+	
 	@RequestMapping("/index")
 	public String gotohome()
 	{
@@ -51,14 +63,14 @@ public class HomeController {
 	
 		this.ds = ds;
 	}
-public HomeController() {
+	public HomeController() {
 	// TODO Auto-generated constructor stub
-}
+	}
 
 	@ModelAttribute("user")
 	public UserDetails create1()
 	{
-		System.out.println("inside modelattribute");
+		//System.out.println("inside modelattribute");
 		return new UserDetails();
 	}
 
@@ -81,15 +93,21 @@ public HomeController() {
 	@ModelAttribute("product")
 	public Product_Info createProdcut()
 	{
-		System.out.println("inside createProduct");
+		//System.out.println("inside createProduct");
 		return new Product_Info();
 	}
 	
 	
-	@RequestMapping("/toflow")
+	@RequestMapping("/toflow1")
 	public String toFlow()
 	{
-		return "redirect:/checkout?shop="+"shop";
+		return "redirect:/checkout?shop="+"shop"+"&abc=abc";
+	}
+	
+	@RequestMapping("/productform")
+	public String goToAddPro()
+	{
+		return "productform";
 	}
 	
 	@Autowired
@@ -134,21 +152,52 @@ public HomeController() {
 		}
 	}
 	
+	@RequestMapping(value="/proedit")
+	public ModelAndView goToProEdit(HttpServletRequest re)
+	{
+		Product_Info product=new Product_Info();
+		System.out.println("-----"+re.getParameter("code")+"--------");
+		product.setCode(Integer.parseInt(re.getParameter("code")));
+		product.setName(re.getParameter("name"));
+		product.setPrice(Integer.parseInt(re.getParameter("price")));
+		product.setManufact(re.getParameter("manufact"));
+		product.setDesc(re.getParameter("desc"));
+		product.setType(re.getParameter("type"));
+		ModelAndView mv=new ModelAndView("eproductform");
+		mv.addObject("pi",product);
+		return mv;
+	}
+	
+	@RequestMapping(value="/prodelete")
+	public String doDelete(HttpServletRequest re)
+	{
+		int code=Integer.parseInt(re.getParameter("code"));
+		System.out.println("Inside do Edit   "+code);
+		Product_Info pi=ds.getProductById(code);
+		ds.deleteProduct(pi);
+		System.out.println("Manufacture----"+pi.getManufact());
+		return "redirect:/aproductinfo";
+	}
 
-	@RequestMapping(value="/addprosuccess",params="edit",method=RequestMethod.POST)
+	@RequestMapping(value="/update",params="edit",method=RequestMethod.POST)
 	public String doEdit(@ModelAttribute("product") Product_Info product)
 	{
+	
+		System.out.println("Inside do Edit   "+product.getCode());
+		//Product_Info pi=ds.getProductById(product.getCode());
 		ds.updateProduct(product);
-		System.out.println(product.getName());
-		return "addprosuccess";
+		System.out.println("Manufacture----"+product.getManufact());
+		return "redirect:/aproductinfo";
 	}
+	
+	
 	String type="";
 
 	@RequestMapping("/home")
 	public String gotoHome(HttpServletRequest re)
 	{
 		type=re.getParameter("im1");
-		System.out.println(type);
+		//System.out.println(type);
 		return "home";
 	}
 
@@ -161,7 +210,7 @@ public HomeController() {
 		ModelAndView mv=new ModelAndView("productinfo");
 		
 		List <Product_Info> pr = ds.getProductInfo(code);
-		System.out.println(re.getContextPath());
+	
 		
 		String src="E:/musichub/src/main/webapp/resources/image/";
 		
@@ -169,9 +218,7 @@ public HomeController() {
 		{
 			
 			src=p.getName();
-			System.out.println(src);
 			String img="/resources/image/"+src+"."+"jpg";
-			System.out.println(img);
 			p.setImg(img);
 			mv.addObject("proinf", p);
 		}
@@ -186,48 +233,15 @@ public HomeController() {
 		System.out.println("inside home1  "+type);
 		String json="";
 		List <Product_Info> pr=(List <Product_Info>)ds.getInfo(type);		
-		for(Product_Info p:pr)
-		System.out.println(p);		
 		Gson gs=new Gson();
-		json=gs.toJson(pr);
-		System.out.println(json);		
+		json=gs.toJson(pr);		
 		return json;
 		
 	
 	}
 	
 	
-	@RequestMapping("/admin")
-	public String gotoProduct()
-	{
-		return "admin";
-	}
 	
-	
-	
-	
-	
-/*	@RequestMapping(value="/login")
-	public ModelAndView login(@RequestParam(value="error",required=false) String error,
-							  @RequestParam(value="logout",required=false) String logout)
-	{
-		ModelAndView model=new ModelAndView();
-		if(error!=null)
-		{
-			model.addObject("error","Invalid Username and Password !");
-		}
-		
-		if(logout!=null)
-		{
-			model.addObject("msg","You have been logged out successfully.");
-		}
-		
-		model.setViewName("login");
-		return model;
-		
-	} 
-
-	*/
 	
 	@RequestMapping("/aproductinfo")
 	public String gotoAdmin()
@@ -238,44 +252,68 @@ public HomeController() {
 	@RequestMapping("/aproductinfo1")
 	public @ResponseBody String gotoAdmin1()
 	{
-		//System.out.println("inside home1  "+type);
 		String json="";
 		List <Product_Info> pr=(List <Product_Info>)ds.getInfo();		
-		for(Product_Info p:pr)
-		{
-			System.out.println(p.getName());
-		}
 		Gson gs=new Gson();
-		json=gs.toJson(pr);
-		System.out.println("json  "+json);		
+		json=gs.toJson(pr);	
 		return json;
 	}
 	
-	@RequestMapping("/proedit")
-	public  String goToEdit(HttpServletRequest re)
+	
+	
+	
+	@RequestMapping("/signin")
+	public String goToLogin()
 	{
-		int code=Integer.parseInt(re.getParameter("code"));
-		ModelAndView mv=new ModelAndView();
-		return "eproductform";
-		
+		return "signin";
 	}
-	
-	
-	@RequestMapping("/login")
-	   public String login(@RequestParam (value="error", required = false) String error,
-	                       @RequestParam (value="logout", required = false) String logout, Model model
-	                       ) {
-
+	// @RequestParam (value="logout", required = false) String logout,
+	@RequestMapping("/logincheck")
+	public String login(@RequestParam (value="error", required = false) String error,Model model,Authentication auth) 
+	{
+		String role="ROLE_USER";
+		if(auth!=null)
+		{
+			Collection<? extends GrantedAuthority>aa=auth.getAuthorities();
+			for(GrantedAuthority ga:aa)
+			{
+				System.out.println(ga.getAuthority());
+				role=ga.getAuthority();
+			}
+			
+		}
+		
+		String go="admin";
 	       if(error != null) {
+	    	   go="signin";
 	           model.addAttribute("error", "Invalid username and password!");
+	           //return go;
 	       }
 
-	       if(logout!= null) {
+	     /*  if(logout!= null) {
 	           model.addAttribute("msg", "You have been logged out successfully.");
+	       }*/
+	       else
+	       {
+	    	   if(role.equals("ROLE_USER"))
+	    	   {
+	    		   go="index";
+	    	   }
 	       }
-
-	       return "login";
+	       return go;
 	   }
+	
+	/*@RequestMapping("/logincheck")
+	public String printWelcome(ModelMap model,Principal principal)
+	{
+		System.out.println("In Login Controller");
+		String name=principal.getName();
+		System.out.println("name:"+name);
+		model.addAttribute("username",name);
+		model.addAttribute("message","spring security custom example");
+		
+		return "admin";
+	}*/
 	   
 	
 }
