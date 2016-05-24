@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,20 +14,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.musichub.model.CardDetail;
+import com.musichub.model.Cart;
+import com.musichub.model.UserDetails;
+import com.musichub.dao.CardDetailService;
+import com.musichub.dao.CartItemService;
+import com.musichub.dao.CartService;
+import com.furniturestore.model.CartItem;
+import com.furniturestore.model.Item;
+import com.furniturestore.model.UsersDetail;
 import com.google.gson.Gson;
 import com.musichub.dao.DataService;
 import com.musichub.model.Product_Info;
@@ -36,6 +51,16 @@ import com.musichub.validator.ProductValidation;
 @Controller
 public class HomeController {
 
+	 @Autowired
+	    private CartService cartService;
+	    
+	   
+	    
+	    @Autowired
+	    private CartItemService cartItemService;
+
+	    @Autowired
+	    private CardDetailService cardService;
 	@Autowired
 	private DataService ds;
 	@RequestMapping("/")
@@ -316,4 +341,110 @@ public class HomeController {
 	}*/
 	   
 	
+	@RequestMapping(value = "/cardDetail/{cartId}", method = RequestMethod.POST)
+    public String CardDetailPost(@PathVariable(value ="cartId") int cartId, @Valid @ModelAttribute("carddetail") CardDetail cardDetail, BindingResult result
+    		,@AuthenticationPrincipal User activeUser ,Model model) {
+    	List<String> cardTypeList = new ArrayList<String>();
+    	cardTypeList.add("Visa-Debit/Credit");
+    	cardTypeList.add("Mastercard");
+    	List<String> expiryMonthList = new ArrayList<String>();
+    	expiryMonthList.add("01");
+    	expiryMonthList.add("02");
+    	expiryMonthList.add("03");
+    	expiryMonthList.add("04");
+    	expiryMonthList.add("05");
+    	expiryMonthList.add("06");
+    	expiryMonthList.add("07");
+    	expiryMonthList.add("08");
+    	expiryMonthList.add("09");
+    	expiryMonthList.add("10");
+    	expiryMonthList.add("11");
+    	expiryMonthList.add("12");
+    	List<String> expiryYearList = new ArrayList<String>();
+    	expiryYearList.add("2016");
+    	expiryYearList.add("2017");
+    	expiryYearList.add("2018");
+    	expiryYearList.add("2019");
+    	expiryYearList.add("2020");
+    	expiryYearList.add("2021");
+    	expiryYearList.add("2022");
+    	expiryYearList.add("2023");
+    	expiryYearList.add("2024");
+    	expiryYearList.add("2025");
+    	expiryYearList.add("2026");
+    	expiryYearList.add("2027");
+    	expiryYearList.add("2028");
+    	expiryYearList.add("2029");
+    	expiryYearList.add("2030");
+    	model.addAttribute("cardTypeList",cardTypeList);
+    	model.addAttribute("expiryMonthList",expiryMonthList);
+    	model.addAttribute("expiryYearList",expiryYearList);
+    	//UsersDetail usersDetail = us.getUserByUsername(activeUser.getUsername());
+    	Cart cart = cartService.getCartById(cartId);
+    	model.addAttribute("cartId", cartId);
+    	model.addAttribute("grandTotal", cart.getGrandTotal());
+
+        if (result.hasErrors()) {
+            return "cardDetailError";
+        }
+
+       
+       
+        cartItemService.removeAllCartItems(cart);
+     //   cardDetail.setUsersDetail(usersDetail);
+        cardDetail.setCart(cart);
+        cardDetail.setTotalCost(cart.getGrandTotal());
+        cardService.addCardDetail(cardDetail);
+
+        return "orderCompleted";
+
+	}
+	
+	 @RequestMapping(value = "/addItem/{itemId}", method = RequestMethod.PUT)
+	    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	    public void addItem (@PathVariable(value ="itemId") int itemId, @AuthenticationPrincipal User activeUser) {
+
+	    	UsersDetail usersDetail = usersDetailService.getUserByUsername(activeUser.getUsername());
+	        Cart cart = usersDetail.getCart();
+	        Product_Info item = itemService.getItemById(itemId);
+	        List<CartItem> cartItems = cart.getCartItems();
+
+	        for (int i=0; i<cartItems.size(); i++) {
+	            if(item.getItemId()==cartItems.get(i).getItem().getItemId()){
+	                CartItem cartItem = cartItems.get(i);
+	                cartItem.setQuantity(cartItem.getQuantity()+1);
+	                cartItem.setTotalPrice(item.getItemPrice()*cartItem.getQuantity());
+	                cartItemService.addCartItem(cartItem);
+
+	                return;
+	            }
+	        }
+
+	        CartItem cartItem = new CartItem();
+	        cartItem.setItem(item);
+	        cartItem.setQuantity(1);
+	        cartItem.setTotalPrice(item.getItemPrice()*cartItem.getQuantity());
+	        cartItem.setCart(cart);
+	        cartItemService.addCartItem(cartItem);
+	    }
+	    /*
+	     * removeItem method is used to remove a item from user cart.
+	     */
+	    @RequestMapping(value = "/removeItem/{itemId}", method = RequestMethod.PUT)
+	    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	    public void removeItem (@PathVariable(value = "itemId") int itemId) {
+	        CartItem cartItem = cartItemService.getCartItemByItemId(itemId);
+	        cartItemService.removeCartItem(cartItem);
+
+	    }
+	    /*
+	     * clearCartItems method is used to remove all items from user cart.
+	     */
+	    @RequestMapping(value = "/clearCartItems/{cartId}", method = RequestMethod.DELETE)
+	    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	    public void clearCartItems(@PathVariable(value = "cartId") int cartId) {
+	        Cart cart = cartService.getCartById(cartId);
+	        cartItemService.removeAllCartItems(cart);
+	    }
+	 
 }
