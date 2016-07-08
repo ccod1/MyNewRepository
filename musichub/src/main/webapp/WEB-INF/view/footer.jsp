@@ -16,6 +16,7 @@
  				<div class="container-fluid">
     				<ul class="nav navbar-nav navbar-left" role="tablist">
       					<li class="glyphicon glyphicon-copyright-mark"></li> 
+<li> Hello </li>
       					
    					</ul>
  		 		</div>
