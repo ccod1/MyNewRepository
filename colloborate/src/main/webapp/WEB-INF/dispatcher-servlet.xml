@@ -25,9 +25,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	</bean>
 
 <bean name="custs" class="com.niit.colloborate.service.CustomerService"/>
+<bean name="chatservice" class="com.niit.colloborate.service.ChatMessageService"/>
 <bean name="blogservice" class="com.niit.colloborate.service.BlogService"/>
 <bean name="custdao" class="com.niit.colloborate.dao.Customerdoa"/>
 <bean name="blogdao" class="com.niit.colloborate.dao.BlogDao"/>
+<bean name="chatdao" class="com.niit.colloborate.dao.ChatMessageDao"/>
 <bean name="mailConfirm" class="com.niit.colloborate.service.MailConfirmationService"/>
 
 

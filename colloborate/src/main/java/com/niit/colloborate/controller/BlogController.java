@@ -21,6 +21,7 @@ import com.niit.colloborate.model.Blog;
 import com.niit.colloborate.model.BlogContent;
 import com.niit.colloborate.model.Customer;
 import com.niit.colloborate.service.BlogService;
+import com.niit.colloborate.service.ChatMessageService;
 
 @Controller
 public class BlogController {
@@ -28,9 +29,12 @@ public class BlogController {
 	@Autowired
 	private BlogService blogservice;
 	
+	
+	
 	@ModelAttribute("blog_content")
 	public BlogContent returnBlogContentObject()
 	{
+		
 		return new BlogContent();
 	}
 	

@@ -7,107 +7,63 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chatting</title>
-    <script>
-	var wsocket;
-	var serviceLocation = "ws://0.0.0.0:8080/chat/";
-	var $nickName;
-	var $message;
-	var $chatWindow;
-	var room = '';
- 
-	function onMessageReceived(evt) {
-		//var msg = eval('(' + evt.data + ')');
-		var msg = JSON.parse(evt.data); // native API
-		var $messageLine = $('<tr><td class="received">' + msg.received
-				+ '</td><td class="user label label-info">' + msg.sender
-				+ '</td><td class="message badge">' + msg.message
-				+ '</td></tr>');
-		$chatWindow.append($messageLine);
-	}
-	function sendMessage() {
-		var msg = '{"message":"' + $message.val() + '", "sender":"'
-				+ $nickName.val() + '", "received":""}';
-		wsocket.send(msg);
-		$message.val('').focus();
-	}
- 
-	function connectToChatserver() {
-		room = $('#chatroom option:selected').val();
-		wsocket = new WebSocket(serviceLocation + room);
-		wsocket.onmessage = onMessageReceived;
-	}
- 
-	function leaveRoom() {
-		wsocket.close();
-		$chatWindow.empty();
-		$('.chat-wrapper').hide();
-		$('.chat-signin').show();
-		$nickName.focus();
-	}
- 
-	$(document).ready(function() {
-		$nickName = $('#nickname');
-		$message = $('#message');
-		$chatWindow = $('#response');
-		$('.chat-wrapper').hide();
-		$nickName.focus();
- 
-		$('#enterRoom').click(function(evt) {
-			evt.preventDefault();
-			connectToChatserver();
-			$('.chat-wrapper h2').text('Chat # '+$nickName.val() + "@" + room);
-			$('.chat-signin').hide();
-			$('.chat-wrapper').show();
-			$message.focus();
-		});
-		$('#do-chat').submit(function(evt) {
-			evt.preventDefault();
-			sendMessage()
-		});
- 
-		$('#leave-room').click(function(){
-			leaveRoom();
-		});
-	});
-</script>
-</head>
-<body>
-  <div class="container chat-signin">
-		<form class="form-signin">
-			<h2 class="form-signin-heading">Chat sign in</h2>
-			<label for="nickname">Nickname</label> <input type="text"
-				class="input-block-level" placeholder="Nickname" id="nickname">
-			<div class="btn-group">
-				<label for="chatroom">Chatroom</label> <select size="1"
-					id="chatroom">
-					<option>arduino</option>
-					<option>java</option>
-					<option>groovy</option>
-					<option>scala</option>
-				</select>
-			</div>
-			<button class="btn btn-large btn-primary" type="submit"
-				id="enterRoom">Sign in</button>
-		</form>
-	</div>
-	<!-- /container -->
- 
-	<div class="container chat-wrapper">
-		<form id="do-chat">
-			<h2 class="alert alert-success"></h2>
-			<table id="response" class="table table-bordered"></table>
-			<fieldset>
-				<legend>Enter your message..</legend>
-				<div class="controls">
-					<input type="text" class="input-block-level" placeholder="Your message..." id="message" style="height:60px"/>
-					<input type="submit" class="btn btn-large btn-block btn-primary"
-						value="Send message" />
-					<button class="btn btn-large btn-block" type="button" id="leave-room">Leave
-						room</button>
-				</div>
-			</fieldset>
-		</form>
-	</div>
+    </head>
+	<body>
+	
+	 <script language="javascript" type="text/javascript">
+            
+            var wsUri = "ws://localhost:8080/colloborate/echo";
+            
+            function init() {
+                output = document.getElementById("output");
+            }
+            function send_message() {
+                websocket = new WebSocket(wsUri);
+                websocket.onopen = function(evt) {
+                    onOpen(evt)
+                };
+                websocket.onmessage = function(evt) {
+                    onMessage(evt)
+                };
+                websocket.onerror = function(evt) {
+                    onError(evt)
+                };
+            }
+            function onOpen(evt) {
+                writeToScreen("Connected to Endpoint!");
+                doSend(textID.value+":"+user_id.value);
+            }
+            function onMessage(evt) {
+                writeToScreen("Message Received: " + evt.data);
+            }
+            function onError(evt) {
+                writeToScreen('ERROR: ' + evt.data);
+            }
+            function doSend(message) {
+                writeToScreen("Message Sent: " + message);
+                websocket.send(message);
+                //websocket.close();
+            }
+            function writeToScreen(message) {
+                var pre = document.createElement("p");
+                pre.style.wordWrap = "break-word";
+                pre.innerHTML = message;
+                 
+                output.appendChild(pre);
+            }
+            window.addEventListener("load", init, false);
+        </script>
+        <h1 style="text-align: center;">Hello World WebSocket Client</h2>
+        <br>
+        <div style="text-align: center;">
+            <form action="">
+            	<input type="text" readonly="true" id="user_id" value="${name}"><br><br>
+                <input onclick="send_message()" value="Send" type="button">
+                <input id="textID" name="message" value="Hello WebSocket!" type="text"><br>
+            </form>
+        </div>
+        <div id="output"></div>
+	
 </body>
 </html>
  

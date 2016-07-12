@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.niit.colloborate.model.Customer;
+import com.niit.colloborate.service.ChatMessageService;
 import com.niit.colloborate.service.CustomerService;
 import com.niit.colloborate.service.MailConfirmationService;
 
@@ -23,6 +24,9 @@ import com.niit.colloborate.service.MailConfirmationService;
 @Controller
 public class HomeController {
 
+	@Autowired 
+	private ChatMessageService chatseervice;
+	
 	String name;
 	@Autowired
 	CustomerService custs;
@@ -83,37 +87,6 @@ public class HomeController {
 			 model.addAttribute("error", "Invalid username and password!");
 			 go="login";
 		 }
-		 
-		/*String role="ROLE_USER";
-		System.out.println(auth);
-		if(auth!=null)
-		{
-			Collection<? extends GrantedAuthority>aa=auth.getAuthorities();
-			for(GrantedAuthority ga:aa)
-			{
-				System.out.println(ga.getAuthority());
-				role=ga.getAuthority();
-			}
-			
-		}
-		
-		String go="";
-	       if(error != null) {
-	    	   go="login";
-	           model.addAttribute("error", "Invalid username and password!");
-	           //return go;
-	       }
-
-	       if(logout!= null) {
-	           model.addAttribute("msg", "You have been logged out successfully.");
-	       }
-	       else
-	       {
-	    	   if(role.equals("ROLE_USER"))
-	    	   {
-	    		   go="home";
-	    	   }
-	       }*/
 		 	HttpSession hs=request.getSession();
 		 	hs.setAttribute("nn", name);
 	       ModelAndView mv=new ModelAndView(go);
@@ -124,6 +97,7 @@ public class HomeController {
 	@RequestMapping("/chat")
 	public String goToChat(HttpServletRequest request,Model model)
 	{
+		//System.out.println(chatseervice);
 		String name=request.getParameter("user");
 		model.addAttribute("name",name);
 		return "chat";
