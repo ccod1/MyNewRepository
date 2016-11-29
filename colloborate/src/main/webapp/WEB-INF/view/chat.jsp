@@ -12,7 +12,7 @@
 	
 	 <script language="javascript" type="text/javascript">
             
-            var wsUri = "ws://localhost:8080/colloborate/echo";
+            var wsUri = "ws://localhost:8081/colloborate/echo";
             
             function init() {
                 output = document.getElementById("output");
@@ -30,7 +30,7 @@
                 };
             }
             function onOpen(evt) {
-                writeToScreen("Connected to Endpoint!");
+                
                 doSend(textID.value+":"+user_id.value);
             }
             function onMessage(evt) {
@@ -40,7 +40,7 @@
                 writeToScreen('ERROR: ' + evt.data);
             }
             function doSend(message) {
-                writeToScreen("Message Sent: " + message);
+                writeToScreen(message);
                 websocket.send(message);
                 //websocket.close();
             }
@@ -58,11 +58,11 @@
         <div style="text-align: center;">
             <form action="">
             	<input type="text" readonly="true" id="user_id" value="${name}"><br><br>
-                <input onclick="send_message()" value="Send" type="button">
-                <input id="textID" name="message" value="Hello WebSocket!" type="text"><br>
+                <input onclick="send_message()" value="Send" class="btn btn success" type="button">
+                <input id="textID" name="message"  type="text"><br>
             </form>
         </div>
-        <div id="output"></div>
+      <center><div id="output"></div></center>  
 	
 </body>
 </html>

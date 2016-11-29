@@ -2,7 +2,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmnl.jcp.org/xml/ns/javaee http://xmnl.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
   <display-name>Archetype Created Web Application</display-name>
-  <listener>
+  
+  	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
@@ -22,15 +23,6 @@
   	<param-value>/WEB-INF/dispatcher-servlet.xml,/WEB-INF/application-context.xml</param-value>
   </context-param>
  
-  <!-- Filter Mapping -->
-   
- <!--  <filter>
-  	<filter-name>springSecurityFilterChain</filter-name>
-  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-  </filter>
+ 
   
-  <filter-mapping><filter-name>springSecurityFilterChain</filter-name>
-  	<url-pattern>/*</url-pattern>
-  </filter-mapping> 
-  -->
 </web-app>
