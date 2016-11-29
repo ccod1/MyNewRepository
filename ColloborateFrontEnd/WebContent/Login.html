@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+<script src = "./js/jquery.min.js"></script>
+<script type="text/javascript" src="./bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
+<style>
+	table {
+    border-collapse: collapse;
+}
+
+td {
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+</style>
+</head>
+<body>
+<br><br><br>
+
+<div class="container">
+	<table>
+	<div>
+	<tr><td><input type="text" class="form-control" ng-model="username"/>	</td></tr>
+	
+	<tr><td><input type="password" class="form-control" ng-model="password"/>	</td></tr>
+	
+	<tr><td><button ng-click="loginUser()" class="btn btn-success">Login</button> </td></tr>
+	</div>
+	</table>
+</div>
+
+</body>
+</html>

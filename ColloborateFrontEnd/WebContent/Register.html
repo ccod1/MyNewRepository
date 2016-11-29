@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Register</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+<script src = "./js/jquery.min.js"></script>
+<script type="text/javascript" src="./bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
+
+      
+</head>
+<body>
+<div ng-app="colloborateApp" ng-controller="colloborateController">
+ <div id="add-task-panel" >
+  <div class="container">
+   <span>Register</span>
+  
+  </div>
+  
+   <div>
+    <table>
+     <tr>
+    
+      <td><input type="text" class="form-control" placeholder="Your name goes here...."  ng-model="name"/></td>
+     </tr>
+     
+      <tr>
+    
+      <td><input type="password" class="form-control" placeholder="Your password goes here...."  ng-model="password"/></td>
+     </tr>
+     
+      <tr>
+    
+      <td><input type="email" class="form-control" placeholder="Your email id goes here...."  ng-model="email"/></td>
+     </tr>
+     
+     <tr>
+      <td>
+<button ng-click="registerUser()" class="btn-panel-big">Register</button></td>
+     </tr>
+    </table>        
+   </div>
+<div ng-repeat="u in user">
+    <span>
+     {{u.name}}
+    </span>
+  
+ </div>
+</div>
+</body>
+</html>
