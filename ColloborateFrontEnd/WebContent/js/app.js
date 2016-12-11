@@ -41,6 +41,7 @@ taskManagerModule.controller('colloborateController', function ($scope,$http,$lo
 		}
 	else
 		{
+		alert("inside login");
 			$http.post(urlBase+ '/login/' +$scope.username+ '/' +$scope.password).success(function(data){
 				alert("credentials correct  "+data);
 				$scope.cre=data;
@@ -51,22 +52,6 @@ taskManagerModule.controller('colloborateController', function ($scope,$http,$lo
 		}
  };
  
- $scope.loginUser=function login(){
-	 alert("inside login");
-	if(($scope.username=="")&&($scope.password==""))
-		{
-			alert("Insufficient Data");
-		}
-	else
-		{
-			$http.post(urlBase+ '/login/' +$scope.username+ '/' +$scope.password).success(function(data){
-				alert("credentials correct  "+data);
-				$scope.cre=data;
-				  var url = "http://" + $window.location.host + "/ColloborateFrontEnd/Home.html";
-				    $log.log(url);
-				    $window.location.href = url;  
-			});
-		}
- };
+ 
  
 });
